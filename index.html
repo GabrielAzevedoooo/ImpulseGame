@@ -64,7 +64,6 @@
       color: var(--accent);
     }
 
-    /* SWITCH BUTTON */
     .switch {
       position: relative;
       width: 50px;
@@ -74,15 +73,6 @@
       cursor: pointer;
       transition: background 0.3s;
       margin-left: auto;
-    }
-
-    .switch::before {
-      position: absolute;
-      left: 6px;
-      top: 3px;
-      font-size: 16px;
-      z-index: 2;
-      transition: opacity 0.3s;
     }
 
     .switch::after {
@@ -99,11 +89,6 @@
 
     .switch.active {
       background: #ffd166;
-    }
-
-    .switch.active::before {
-      left: auto;
-      right: 6px;
     }
 
     .switch.active::after {
@@ -321,6 +306,14 @@
     let index = 0;
     const total = carousel.children.length;
 
+    // Intervalo automático
+    let carouselInterval = setInterval(nextImage, 4000);
+
+    function resetCarouselInterval() {
+      clearInterval(carouselInterval);
+      carouselInterval = setInterval(nextImage, 4000);
+    }
+
     function showImage(i) {
       if (i < 0) i = total - 1;
       if (i >= total) i = 0;
@@ -330,10 +323,12 @@
 
     function nextImage() {
       showImage(index + 1);
+      resetCarouselInterval(); // Reinicia o intervalo após clique
     }
 
     function prevImage() {
       showImage(index - 1);
+      resetCarouselInterval(); // Reinicia o intervalo após clique
     }
 
     function showSection(id) {
@@ -342,10 +337,6 @@
       });
       document.getElementById(id).classList.add('active');
     }
-
-    setInterval(() => {
-      nextImage();
-    }, 4000);
 
     function toggleTheme() {
       const root = document.documentElement;
