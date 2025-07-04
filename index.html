@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impulse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #f1f1f1;
+      --accent: #4cc9f0;
+      --background: #121212;
+      --surface: #1e1e1e;
+      --muted: #999;
+      --shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--primary);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    nav {
+      background-color: var(--surface);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      box-shadow: 0 4px 10px var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav img.logo {
+      height: 70px;
+      margin-right: 10px;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: var(--primary);
+      cursor: pointer;
+      padding: 8px 16px;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: all 0.4s ease, transform 0.3s ease;
+      position: relative;
+    }
+
+    nav button:hover {
+      transform: translateY(-2px);
+      color: var(--accent);
+    }
+
+    /* SWITCH BUTTON */
+    .switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: #2c2c2c;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-left: auto;
+    }
+
+    .switch::before {
+      position: absolute;
+      left: 6px;
+      top: 3px;
+      font-size: 16px;
+      z-index: 2;
+      transition: opacity 0.3s;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+
+    .switch.active {
+      background: #ffd166;
+    }
+
+    .switch.active::before {
+      left: auto;
+      right: 6px;
+    }
+
+    .switch.active::after {
+      transform: translateX(24px);
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 60px auto;
+      display: flex;
+      gap: 40px;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+
+    .preview, .details {
+      flex: 1 1 400px;
+      background-color: var(--surface);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 24px var(--shadow);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .preview:hover, .details:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px var(--shadow);
+    }
+
+    .carousel {
+      overflow: hidden;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-images img {
+      width: 100%;
+      flex-shrink: 0;
+      border-radius: 12px;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.1);
+      border: none;
+      padding: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--primary);
+      transition: background 0.2s ease;
+    }
+
+    .arrow:hover {
+      background-color: var(--accent);
+      color: #000;
+    }
+
+    .arrow.left { left: 10px; }
+    .arrow.right { right: 10px; }
+
+    .title {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .creator {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .rating {
+      font-size: 22px;
+      color: #f1c40f;
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin: 6px 0;
+    }
+
+    .download-btn {
+      background: var(--accent);
+      color: #000;
+      padding: 14px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 24px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .download-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px var(--shadow);
+    }
+
+    footer {
+      margin-top: 80px;
+      background: var(--surface);
+      color: var(--muted);
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    footer h2 {
+      font-size: 26px;
+      color: var(--primary);
+    }
+
+    footer a {
+      color: var(--muted);
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    footer p {
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <img src="Logo.png" alt="Logo da Empresa" class="logo" />
+    <button onclick="showSection('inicio')">Início</button>
+    <button onclick="showSection('sobre')">Sobre</button>
+    <div id="themeSwitch" class="switch" onclick="toggleTheme()"></div>
+  </nav>
+
+  <div id="inicio" class="section active">
+    <div class="main-container">
+      <div class="preview">
+        <div class="carousel">
+          <button class="arrow left" onclick="prevImage()">❮</button>
+          <div class="carousel-images" id="carousel">
+            <img src="jogo1.PNG" alt="Screenshot 1" />
+            <img src="jogo2.PNG" alt="Screenshot 2" />
+            <img src="jogo3.PNG" alt="Screenshot 3" />
+          </div>
+          <button class="arrow right" onclick="nextImage()">❯</button>
+        </div>
+      </div>
+
+      <div class="details">
+        <div class="title">Impulse</div>
+        <div class="creator">por <strong>Gabriel Azevedo e Gabriel Machado</strong></div>
+        <div class="rating">★★★★★</div>
+
+        <div class="info-box">
+          <p><strong>Preço:</strong> Grátis</p>
+          <p><strong>Versão:</strong> 2.0</p>
+          <p><strong>Lançamento:</strong> 20 de fevereiro de 2024</p>
+          <p><strong>Tamanho:</strong> 500 MB</p>
+          <p><strong>Feito com Unity:</strong> 2022.3.49f1</p>
+        </div>
+
+        <a class="download-btn" href="https://drive.google.com/file/d/1BBoBXqrxlKldO64xBtSoRCafcbKIGDRG/view" target="_blank">⬇️ Baixar Agora</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="sobre" class="section">
+    <div class="main-container">
+      <div class="details" style="flex: 1 1 100%;">
+        <div class="title">Sobre o Projeto</div>
+        <p>
+          <strong>Impulse</strong> nasceu da vontade de criar algo dinâmico e divertido, combinando a estética minimalista com uma jogabilidade envolvente. A ideia surgiu em 2023, quando os desenvolvedores, Gabriel Azevedo e Gabriel Machado, decidiram experimentar os limites da Unity para criar um jogo indie gratuito, acessível e visualmente moderno.
+        </p>
+        <br/>
+        <p>
+          Durante o desenvolvimento, buscamos referências de jogos rápidos, com reflexos e ritmo acelerado. O objetivo era entregar uma experiência intensa, com desafios progressivos e uma identidade visual marcante, baseada em tons escuros e trilha sonora envolvente.
+        </p>
+        <br/>
+        <p>
+          O processo de criação envolveu prototipagem rápida, testes entre amigos, feedbacks constantes e muitas iterações até chegar à versão atual. Usamos Unity 2022.3.49f1, com assets otimizados e efeitos visuais leves, focando no desempenho e na diversão do jogador.
+        </p>
+        <br/>
+        <p>
+          Esse projeto representa nossa paixão por desenvolvimento de jogos e é apenas o começo da jornada com Impulse. Agradecemos por jogar!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <h2>Impulse Game</h2>
+    <a href="#">Política de Privacidade</a> |
+    <a href="#">Termos de Uso</a>
+    <p>&copy; 2024 Gabriel Azevedo e Gabriel Machado. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const carousel = document.getElementById("carousel");
+    let index = 0;
+    const total = carousel.children.length;
+
+    function showImage(i) {
+      if (i < 0) i = total - 1;
+      if (i >= total) i = 0;
+      index = i;
+      carousel.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function nextImage() {
+      showImage(index + 1);
+    }
+
+    function prevImage() {
+      showImage(index - 1);
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
+
+    setInterval(() => {
+      nextImage();
+    }, 4000);
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const switchBtn = document.getElementById("themeSwitch");
+      const isDark = getComputedStyle(root).getPropertyValue('--background').trim() === '#121212';
+
+      if (isDark) {
+        root.style.setProperty('--background', '#ffffff');
+        root.style.setProperty('--surface', '#f4f4f4');
+        root.style.setProperty('--primary', '#121212');
+        root.style.setProperty('--muted', '#555');
+        root.style.setProperty('--shadow', 'rgba(0, 0, 0, 0.1)');
+        switchBtn.classList.add('active');
+      } else {
+        root.style.setProperty('--background', '#121212');
+        root.style.setProperty('--surface', '#1e1e1e');
+        root.style.setProperty('--primary', '#f1f1f1');
+        root.style.setProperty('--muted', '#999');
+        root.style.setProperty('--shadow', 'rgba(0, 0, 0, 0.4)');
+        switchBtn.classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html>
